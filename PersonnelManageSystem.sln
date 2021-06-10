@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonnelManageSystem", "PersonnelManageSystem.csproj", "{632DFF05-5DB9-4F0E-9DE9-F722300F17FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{19F0F359-53AB-4774-8B49-DCBA33F558D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{632DFF05-5DB9-4F0E-9DE9-F722300F17FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632DFF05-5DB9-4F0E-9DE9-F722300F17FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632DFF05-5DB9-4F0E-9DE9-F722300F17FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632DFF05-5DB9-4F0E-9DE9-F722300F17FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F0F359-53AB-4774-8B49-DCBA33F558D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F0F359-53AB-4774-8B49-DCBA33F558D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F0F359-53AB-4774-8B49-DCBA33F558D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F0F359-53AB-4774-8B49-DCBA33F558D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

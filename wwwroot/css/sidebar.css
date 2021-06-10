@@ -1,0 +1,37 @@
+﻿.self-sidebar {
+    padding-top: 50px;
+}
+
+.self-sidebar ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background: #ffffff;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.self-sidebar ul li:first-child {
+    margin-top: 5px;
+}
+
+
+    .self-sidebar ul li a {
+        position: relative;
+        display: block;
+        padding: 12px 20px;
+        color: #000000;
+        outline-width: 0;
+        transition: all .3s ease-out;
+    }
+
+
+
+.self-sidebar ul li :hover {
+    color: #000000;
+    text-decoration: none;
+    background: #e9ecef;
+}
+

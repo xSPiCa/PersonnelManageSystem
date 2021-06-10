@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+    var exception = ViewData["Exception"] as Exception;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Global Error Page</title>
+</head>
+<body>
+<div>
+    Exception Details: @exception?.Message
+</div>
+<div>
+    Exception Stack :@exception?.StackTrace
+</div>
+
+</body>
+</html>

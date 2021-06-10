@@ -1,0 +1,167 @@
+﻿@using PersonnelManageSystem.Utils
+@model PersonnelManageSystem.Models.ReturnResult
+<!DOCTYPE html>
+@*使用razor语法 相关文档 https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-5.0*@
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人事管理系统共享页！</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/css/sidebar.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-table.css">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+</head>
+<body>
+@if ( Model != null && Model.Code == StatusCode.UserHasUpdate)
+{<script>
+
+        alert("登录已过期");
+
+</script>
+}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+    <a class="navbar-brand">人事管理系统</a>
+    <div class="collapse navbar-collapse ">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a href="#" class="nav-link">主页</a>
+
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">关于</a>
+
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">联系方式</a>
+
+            </li>
+        </ul>
+
+        <ul class="nav justify-content-end">
+            @if (Model != null && Model.Authorization)
+            {
+                <li class="nav-item">
+                    <a href="#" class="text-light">已登录</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="text-light" onclick="back()">退出</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="#" class="text-light" onclick="launch()">登录</a>
+                </li>
+            }
+
+        </ul>
+
+    </div>
+</nav>
+<div class="container-fluid ">
+
+    <div class="row">
+        @* 侧滑菜单栏 *@
+        <aside class="col-md-2 self-sidebar">
+            <ul>
+                <li class="active">
+                    <a asp-controller="ManagerBody" asp-action="EmployeeInfo">员工管理</a>
+                </li>
+                <li>
+
+                    <a href="#">部门管理</a>
+                </li>
+                <li>
+
+                    <a href="#">休假管理</a>
+                </li>
+                <li>
+                    <a href="#">工资管理</a>
+                </li>
+                <li>
+                    <a href="#">考勤管理</a>
+                </li>
+                <li>
+                    <a href="#">工资管理</a>
+                </li>
+                <li>
+
+                    <a href="#">日志管理</a>
+                </li>
+            </ul>
+
+        </aside>
+
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="login-Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">登录</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="login-form" method="post">
+                <div class="modal-body">
+
+                    <div class="form-group text-body">
+                        <label for="login-user">用户名:</label>
+                        <input id="login-user" name="username" class="form-control"/>
+                    </div>
+
+                    <div class="form-group text-body">
+
+                        <label for="login-password">密码:</label>
+
+                        <input id="login-password" name="password" class="form-control"/>
+
+                    </div>
+                    <p id="login-message" class="text-danger"></p>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div id="login-cycle">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="login()">登录</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+
+    </div>
+</footer>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/login.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+
+
+</html>
