@@ -24,19 +24,11 @@ namespace PersonnelManageSystem.DAL
 
                 List<Department> departments =query.ToList();
 
-                return new ReturnResult()
-                {
-                    Code = StatusCode.Success,
-                    Data = departments
-                };
+                return ReturnResult.Success(departments);
             }
             catch (ArgumentException e)
             {
-                return new ReturnResult()
-                {
-                    Code = StatusCode.DepartInfoNull,
-                    Data = null
-                };
+                return ReturnResult.Fail(StatusCode.DbException);
             }
         }
 
@@ -55,22 +47,12 @@ namespace PersonnelManageSystem.DAL
                 var queryHighAuthority = (from d in queryAll
                     where d.Authority >= authority
                     select d).ToList();
-                return new ReturnResult()
-                {
-                    Code = StatusCode.Success,
-                    Data = queryHighAuthority
-                };
+                return ReturnResult.Success(queryHighAuthority);
             }
             catch (Exception e)
             {
-                return new ReturnResult()
-                {
-                    Code = StatusCode.UnKnowError
-                };
+                return ReturnResult.Fail(StatusCode.DbException);
             }
-
-            
-            
         }
 
     }

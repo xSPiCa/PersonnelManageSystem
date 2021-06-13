@@ -150,22 +150,23 @@ function EditById(Id) {
 
 function SubmitEdit() {
 
-
+    //这个表单提交会受模型绑定验证 如果更新失败了 其实就是因为不满足模型的条件 模型的条件在模型类中以注释的形式给出了 比如密码太短
+    //实在是懒得在去 写前端来显示这部分错误内容了
     var formData=new FormData($("#e-form")[0]);
     console.log(formData);
     $.ajax({
         url: "/Api/EmployeeInfo/UpdateStaff",
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({
-                StaffId: $("#e-form")[0][name = "StaffId"].value,
-                Name: $("#e-form")[0][name = "Name"].value,
-                Post:parseInt($("#e-form")[0][name = "Post"].value,10),
-                DepartmentId: $("#e-form")[0][name = "DepartmentId"].value,
-                Age: parseInt($("#e-form")[0][name = "Age"].value,10),
-                Phone: $("#e-form")[0][name = "Phone"].value,
-                Address: $("#e-form")[0][name = "Address"].value,
-                Sex:$("#e-form")[0][name = "Sex"].value,
-                Password:$("#e-form")[0][name = "Password"].value,
+            StaffId: $("#e-form")[0][name = "StaffId"].value,
+            Name: $("#e-form")[0][name = "Name"].value,
+            Post:parseInt($("#e-form")[0][name = "Post"].value,10),
+            DepartmentId: $("#e-form")[0][name = "DepartmentId"].value,
+            Age: parseInt($("#e-form")[0][name = "Age"].value,10),
+            Phone: $("#e-form")[0][name = "Phone"].value,
+            Address: $("#e-form")[0][name = "Address"].value,
+            Sex:$("#e-form")[0][name = "Sex"].value,
+            Password:$("#e-form")[0][name = "Password"].value,
         }),
         type: "Post",
         dataType: "json",
@@ -175,11 +176,12 @@ function SubmitEdit() {
                 alert("授权信息已更新");
                 $(location).attr("href","/");
             }
-            console.log("更新成功")
+           alert("更新成功");
             $('#e-table').bootstrapTable('refresh');
         },
-        error: function() {
-            console.log("更新失败")
+        error: function(result) {
+            
+            alert("失败: "+result['responseJSON']['title']);
         }
     })
 
@@ -301,3 +303,23 @@ var ButtonInit = function () {
 
     return oInit;
 };
+
+(function($){
+    $.fn.serializeJson=function(){
+        var serializeObj={};
+        var array=this.serializeArray();
+        var str=this.serialize();
+        $(array).each(function(){
+            if(serializeObj[this.name]){
+                if($.isArray(serializeObj[this.name])){
+                    serializeObj[this.name].push(this.value);
+                }else{
+                    serializeObj[this.name]=[serializeObj[this.name],this.value];
+                }
+            }else{
+                serializeObj[this.name]=this.value;
+            }
+        });
+        return serializeObj;
+    };
+})(jQuery);  
