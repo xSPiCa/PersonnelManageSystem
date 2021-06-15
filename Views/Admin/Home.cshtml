@@ -12,7 +12,7 @@
         @staff?.Name
     </h1>
 </div>
-@if (Model.Code == StatusCode.InValidUserInfo)
+@if (Model.Code == ResultCode.InValidUserInfo)
 {<script>
     alert("认证信息发生改变")
     $(location).attr('href','/User/Login')

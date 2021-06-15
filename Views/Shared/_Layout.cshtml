@@ -1,5 +1,8 @@
 ﻿@using PersonnelManageSystem.Utils
 @model PersonnelManageSystem.Models.ReturnResult
+@{
+    var staff = @Model?.Data as Staff;
+}
 <!DOCTYPE html>
 @*使用razor语法 相关文档 https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-5.0*@
 <html lang="en">
@@ -16,7 +19,7 @@
 
 </head>
 <body>
-@if ( Model != null && Model.Code == StatusCode.UserHasUpdate)
+@if ( Model != null && Model.Code == ResultCode.UserHasUpdate)
 {<script>
 
         alert("登录已过期");
@@ -25,7 +28,7 @@
 }
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
     <a class="navbar-brand">人事管理系统</a>
     <div class="collapse navbar-collapse ">
@@ -71,30 +74,40 @@
         @* 侧滑菜单栏 *@
         <aside class="col-md-2 self-sidebar">
             <ul>
-                <li class="active">
-                    <a asp-controller="Admin" asp-action="EmployeeInfo">员工管理</a>
-                </li>
-                <li>
+                
+                @if (staff?.Post != Role.Laborer)
+                {
+                    <li>
+                        <a asp-controller="Admin" asp-action="EmployeeInfo">员工管理</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="DepartmentInfo">部门管理</a>
+                    </li>
+                    <li>
 
-                    <a href="#">部门管理</a>
-                </li>
-                <li>
+                        <a href="#">休假管理</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="SalaryInfo">工资管理</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="AttendanceInfo">考勤管理</a>
+                    </li>
 
-                    <a href="#">休假管理</a>
-                </li>
-                <li>
-                    <a href="#">工资管理</a>
-                </li>
-                <li>
-                    <a href="#">考勤管理</a>
-                </li>
-                <li>
-                    <a href="#">工资管理</a>
-                </li>
-                <li>
+                    <li>
 
-                    <a href="#">日志管理</a>
-                </li>
+                        <a asp-controller="Admin" asp-action="OperationLogInfo">日志管理</a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-controller="Client" asp-action="IndividualInfo">个人信息</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Client" asp-action="Clock">考勤</a>
+                    </li>
+                }
             </ul>
 
         </aside>

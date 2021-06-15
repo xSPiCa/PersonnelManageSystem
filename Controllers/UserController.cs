@@ -60,7 +60,7 @@ namespace PersonnelManageSystem.Controllers
             ReturnResult result = await StaffMapper.GetStaffByNamePassword(username, password, _personnelContext);
 
             
-            if (result.Code == Utils.StatusCode.Success)
+            if (result.Code == Utils.ResultCode.Success)
             {
                 Staff staff = (Staff) result.Data;
                 //获取职位字符串 post原本是个枚举类型静态方法RoleInfo.getRoleStr可以转换为对应的字符串名
@@ -103,8 +103,8 @@ namespace PersonnelManageSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [IgnoreAntiforgeryToken]
-        [Route("Back")]
         [Authorize]
+        [HttpGet("Back")]
         public async Task<JsonResult> Back()
         {
             await HttpContext.SignOutAsync();

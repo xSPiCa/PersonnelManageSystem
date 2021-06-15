@@ -218,6 +218,8 @@ var TableInit = function () {
     //初始化Table
     oTableInit.Init = function () {
         
+        //BootstrapTable  设置默认接收返回值json中键为data 的数据来解析 将键为total作为返回数量 
+        // 原本的默认值是rows 但为了统一前后端命名规则 修改为了data
         BootstrapTable.DEFAULTS.dataField = "data";
         BootstrapTable.DEFAULTS.totalField = "total";
         $('#e-table').bootstrapTable({
@@ -230,7 +232,6 @@ var TableInit = function () {
                 var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                     limit: params.limit, //页面大小
                     offset: params.offset / params.limit, //页码
-                    
                 };
                 return temp;
             },//传递参数（*）

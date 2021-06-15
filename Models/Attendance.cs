@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PersonnelManageSystem.Utils;
 
 namespace PersonnelManageSystem.Models
 {
@@ -15,9 +16,9 @@ namespace PersonnelManageSystem.Models
         public DateTime StartTime { get; set; }
 
         [Column("EndTime", TypeName = "smalldatetime")]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
-        [Range(0, 15)] [Column("WorkStatus")] public int WorkStatus { get; set; }
+        [Range(0, 15)] [Column("WorkStatus")] public AttendanceStatus.WorkCode WorkStatus { get; set; }
         
         
         /// <summary>

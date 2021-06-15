@@ -39,7 +39,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException,e);
             }
         }
 
@@ -64,7 +64,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException,e);
             }
 
         }
@@ -112,13 +112,13 @@ namespace PersonnelManageSystem.DAL
                     .Include("Department");
 
                 int count = queryResult.Count();
-                List<Staff> staves = await queryResult.OrderBy(staff => staff.StaffId).Skip(limit * offset).Take(limit).ToListAsync();
+                List<Staff> staves = await queryResult.OrderBy(staff1 => staff1.StaffId).Skip(limit * offset).Take(limit).ToListAsync();
 
                 return ReturnResult.Success(staves,count);
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException,e);
             }
 
         }
@@ -149,7 +149,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException,e);
             }
         }
 
@@ -172,7 +172,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException,e);
             }
 
         }

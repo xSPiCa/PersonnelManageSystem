@@ -20,6 +20,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
     [Route("Api/EmployeeInfo")]
     [ApiController]
     [Authorize(Roles = "admin")]
+    [IgnoreAntiforgeryToken]
     public class EmployeeInfoController : Controller
     {
 
@@ -35,7 +36,8 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
         
         /// <summary>
         /// 通过已授权的信息 查询授权用户部门下的员工
-        /// 
+        /// 参数前面可以加[FromQuery] 表示从get方法的参数中获取的 不加默认也是从get方法获取
+        /// 我有的地方加有的地方又没加所以提醒一下
         /// </summary>
         /// <returns>返回格式化的员工列表</returns>
         [HttpGet("GetAllStaffInfo")]
@@ -45,7 +47,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
 
             ReturnResult result =  await MyUtils.GetHasAuthentication(HttpContext, _personnelContext);
                 
-            if (result.Code == Utils.StatusCode.Success)
+            if (result.Code == Utils.ResultCode.Success)
             {
                 ReturnResult queryResult= await StaffMapper.GetSameDepartmentStaff((Staff) result.Data,limit,offset, _personnelContext);
 
@@ -65,13 +67,13 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
                         dId = s.DepartmentId,
                     };
                 queryResult.Data = formatResult;
-                queryResult.Code = Utils.StatusCode.Success;
+                queryResult.Code = Utils.ResultCode.Success;
                 _logger.LogInformation(_controllerName +"成功获取职工列表");
                 return new JsonResult(queryResult);
             }
-            _logger.LogWarning(_controllerName +"获取职工列表失败");
+            _logger.LogWarning(_controllerName +((Exception)result.Data).StackTrace);
 
-            return new JsonResult(ReturnResult.Fail(Utils.StatusCode.InValidParameter));
+            return new JsonResult(result);
         }
         
         /// <summary>
@@ -86,10 +88,10 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
             
             ReturnResult queryStaff=await StaffMapper.GetStaffById(id,_personnelContext);
 
-            if (queryStaff.Code == Utils.StatusCode.Success)
+            if (queryStaff.Code == Utils.ResultCode.Success)
             {
                ReturnResult queryAuth= await MyUtils.GetHasAuthentication(HttpContext, _personnelContext);
-               if (queryStaff.Code == Utils.StatusCode.Success && queryAuth.Code == Utils.StatusCode.Success)
+               if (queryStaff.Code == Utils.ResultCode.Success && queryAuth.Code == Utils.ResultCode.Success)
                {   // 保证授权用户和被查询用户是同一部门
                    if (((Staff) queryStaff.Data).DepartmentId == ((Staff) queryAuth.Data).DepartmentId)
                    {
@@ -102,23 +104,36 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
                        return new JsonResult(queryStaff);
                    }
                }
+               else
+               {
+                   _logger.LogWarning(_controllerName +((Exception)queryAuth.Data).StackTrace);
+               }
             }
-            _logger.LogWarning(_controllerName +"获取职工信息失败");
-            return new JsonResult(ReturnResult.Fail(Utils.StatusCode.InValidUserInfo));
+            else
+            {
+                _logger.LogWarning(_controllerName +((Exception)queryStaff.Data).StackTrace);
+            }
+            
+            return new JsonResult(ReturnResult.Fail(Utils.ResultCode.InValidUserInfo));
         }
 
+        /// <summary>
+        /// 更新信息
+        /// </summary>
+        /// <param name="staff">模型绑定从Post中获取Staff</param>
+        /// <returns></returns>
         [HttpPost("UpdateStaff")]
         public async Task<JsonResult> UpdateStaff([FromBody] Staff staff)
         {
 
             ReturnResult queryAuth = await MyUtils.GetHasAuthentication(HttpContext, _personnelContext);
-                if (queryAuth.Code == Utils.StatusCode.Success)
+                if (queryAuth.Code == Utils.ResultCode.Success)
                 {
                     var authStaff = (Staff)queryAuth.Data;
                     var tmp = _personnelContext.Department.Single(d => d.DepartmentId == authStaff.DepartmentId);
                     var queryHighAuthority = DepartmentMapper.GetValidDepartment(tmp.Authority,_personnelContext);
  
-                    if (queryHighAuthority.Code == Utils.StatusCode.Success)
+                    if (queryHighAuthority.Code == Utils.ResultCode.Success)
                     {
 
                         foreach (var item in (List<Department>)queryHighAuthority.Data)
@@ -126,7 +141,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
                             if (item.DepartmentId == staff.DepartmentId)
                             {
                                 var updateResult =await StaffMapper.UpdateStaff(staff, _personnelContext);
-                                if (updateResult.Code == Utils.StatusCode.Success)
+                                if (updateResult.Code == Utils.ResultCode.Success)
                                 {
                                     _logger.LogInformation(_controllerName +"更新成功");
                                     //如果当前的账号被修改了 我们必须要删除当前授权信息并发送给前端相应的状态码
@@ -135,7 +150,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
                                         await HttpContext.SignOutAsync();
                                         return new JsonResult(new ReturnResult()
                                         {
-                                            Code = Utils.StatusCode.UserHasUpdate,
+                                            Code = Utils.ResultCode.UserHasUpdate,
                                         });
                                     }
                                     else
@@ -143,21 +158,34 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
                                         return new JsonResult(ReturnResult.Success());
                                     }
                                 }
+                                else
+                                {
+                                    _logger.LogWarning(_controllerName +((Exception)updateResult.Data).StackTrace);
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        _logger.LogWarning(_controllerName +((Exception)queryHighAuthority.Data).StackTrace);
+                    }
 
-                
+
                 }
                 _logger.LogInformation(_controllerName +"更新失败");
 
-                return new JsonResult(ReturnResult.Fail(Utils.StatusCode.InValidUserInfo));
+                return new JsonResult(ReturnResult.Fail(Utils.ResultCode.InValidUserInfo));
         }
 
         [HttpGet("InValidStaff")]
         public async Task<JsonResult> InValidStaff(int id)
         {
             ReturnResult result = await StaffMapper.InValidStaff(id, _personnelContext);
+            if (result.Code != ResultCode.Success)
+            {
+                _logger.LogWarning(_controllerName +((Exception)result.Data).StackTrace);
+            }
+
             return new JsonResult(result);
         }
 

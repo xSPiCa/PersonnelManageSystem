@@ -3,7 +3,7 @@
     /// <summary>
     /// Api调用状态码 其实大部分状态都是查询不到结果
     /// </summary>
-    public enum StatusCode
+    public enum ResultCode
     {
         /// <summary>
         /// 传递的参数无效 
@@ -14,7 +14,7 @@
         /// <summary>
         /// 账号或密码错误 弃用
         /// </summary>
-        UserOrPasswordNoFond = 10001,
+        NoFund = 10001,
         /// <summary>
         /// 数据库异常 数据库的错误或者是查询结果为空 
         /// </summary>
@@ -50,6 +50,21 @@
         /// </summary>
         UnKnowError = 10008,
         
+        /// <summary>
+        /// 已经打过卡了 不能重复打卡
+        /// </summary>
+        HasClock = 10009,
+        
+        /// <summary>
+        /// 还没上班 就下班
+        /// </summary>
+        NoClock = 10010,
+        
         Success = 200,
+        
+        
     }
+
+
+
 }

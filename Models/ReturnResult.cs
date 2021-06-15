@@ -5,11 +5,11 @@ using PersonnelManageSystem.Utils;
 namespace PersonnelManageSystem.Models
 {
     /// <summary>
-    /// 用于返回给视图层统一的模型
+    /// 用于作为返回结果的模型
     /// </summary>
     public class ReturnResult
     {
-        public StatusCode Code { get; set; }
+        public ResultCode Code { get; set; }
         public String Message { get; set; }
 
         /// <summary>
@@ -26,18 +26,23 @@ namespace PersonnelManageSystem.Models
         /// </summary>
         public int Total { get; set; }
 
+        
+        /// <summary>
+        /// 直接调用 返回成功或是失败
+        /// </summary>
+        /// <returns></returns>
         public static ReturnResult Success()
         {
             return new ReturnResult()
             {
-                Code = StatusCode.Success,
+                Code = ResultCode.Success,
             };
         }
         public static ReturnResult Success(Object data)
         {
             return new ReturnResult()
             {
-                Code = StatusCode.Success,
+                Code = ResultCode.Success,
                 Data = data
             };
         }
@@ -45,7 +50,7 @@ namespace PersonnelManageSystem.Models
         {
             return new ReturnResult()
             {
-                Code = StatusCode.Success,
+                Code = ResultCode.Success,
                 Data = data,
                 Message = message
             };
@@ -54,20 +59,21 @@ namespace PersonnelManageSystem.Models
         {
             return new ReturnResult()
             {
-                Code = StatusCode.Success,
+                Code = ResultCode.Success,
                 Data = data,
                 Total = total
             };
         }
         
-        public static ReturnResult Fail( StatusCode code)
+        public static ReturnResult Fail( ResultCode code)
         {
+            
             return new ReturnResult()
             {
                 Code = code,
             };
         }
-        public static ReturnResult Fail( StatusCode code,String message)
+        public static ReturnResult Fail( ResultCode code,String message)
         {
             return new ReturnResult()
             {
@@ -76,7 +82,13 @@ namespace PersonnelManageSystem.Models
             };
         }
         
-        
-
+        public static ReturnResult Fail( ResultCode code,Exception e)
+        {
+            return new ReturnResult()
+            {
+                Data = e,
+                Code = code,
+            };
+        }
     }
 }

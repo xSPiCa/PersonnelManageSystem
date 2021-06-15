@@ -40,7 +40,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
             ReturnResult queryResult = DepartmentMapper.GetAllDepartment(_personnelContext);
 
             ReturnResult queryAuth =await MyUtils.GetHasAuthentication(HttpContext,_personnelContext);
-            if (queryAuth.Code == Utils.StatusCode.Success && queryResult.Code == Utils.StatusCode.Success)
+            if (queryAuth.Code == Utils.ResultCode.Success && queryResult.Code == Utils.ResultCode.Success)
             {
                 Staff authStaff = (Staff) queryAuth.Data;
                 
@@ -56,7 +56,7 @@ namespace PersonnelManageSystem.Controllers.Admin.Api
             }
 
 
-            return new JsonResult(ReturnResult.Fail(Utils.StatusCode.InValidUserInfo));
+            return new JsonResult(ReturnResult.Fail(Utils.ResultCode.InValidUserInfo));
 
         }
     }

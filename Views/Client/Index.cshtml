@@ -1,21 +1,28 @@
 ﻿@using PersonnelManageSystem.Utils
 @model PersonnelManageSystem.Models.ReturnResult
+
 @{
-    Layout = null;
+    Layout = "_Layout";
+    var staff = @Model?.Data as Staff;
+    var Code = @Model?.Code;
 }
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>职工页面</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css"/>
-    <link rel="stylesheet" href="~/css/sidebar.css"/>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-table.css">
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<div class="main">
+    
+    <h1> 欢迎 员工
+        @staff?.Name
+    </h1>
+</div>
+@if (Model.Code == ResultCode.InValidUserInfo)
+{<script>
+    alert("认证信息发生改变")
+    $(location).attr('href','/User/Login')
+</script>
+}
 
-</head>
-
-<body>
-<p>Welcome!</p>
-</body>
+@if (staff.Post != Role.Laborer)
+{
+<script>
+     $(location).attr('href','/Admin')
+</script>
+   
+}

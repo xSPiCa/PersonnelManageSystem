@@ -28,7 +28,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (ArgumentException e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException);
             }
         }
 
@@ -51,7 +51,7 @@ namespace PersonnelManageSystem.DAL
             }
             catch (Exception e)
             {
-                return ReturnResult.Fail(StatusCode.DbException);
+                return ReturnResult.Fail(ResultCode.DbException);
             }
         }
 

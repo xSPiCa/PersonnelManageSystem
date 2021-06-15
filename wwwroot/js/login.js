@@ -11,7 +11,7 @@ function login() {
                                         </div>';
         
     $.ajax({
-        url:"/Api/User/Login",
+        url:"/User/Login",
         type: "Post",
         data:{
             username: $('#login-form')[0]['username'].value,
@@ -38,7 +38,7 @@ function login() {
 // 登出
 function back(){
     $.ajax({
-        url:"/Api/User/Back",
+        url:"/User/Back",
         success:function () {
             $(location).attr("href","/");
         },

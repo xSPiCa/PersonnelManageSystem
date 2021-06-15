@@ -42,7 +42,7 @@ namespace PersonnelManageSystem
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             
-            // 配置用于存储登录信息的cookie的授权
+            // 配置用于存储登录信息的cookie的认证
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
@@ -50,11 +50,16 @@ namespace PersonnelManageSystem
                     options.Cookie.Name = "UserApplicationTokenCookie";
                     options.Cookie.HttpOnly = true;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    //认证持续时间
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    //跳转的登录路径
                     options.LoginPath = "/user/Login";
+                    //拒绝访问的路径 (还未写)
                     options.AccessDeniedPath = "/user/AccessDenied";
                 });
 
+            //配置授权 使用默认授权策略 
+            //授权策略看控制器上的注解 
             services.AddAuthorization(options =>
             {
                 var defaultAuthBuilder = new AuthorizationPolicyBuilder();

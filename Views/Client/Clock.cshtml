@@ -1,0 +1,65 @@
+﻿@model PersonnelManageSystem.Models.ReturnResult
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>考勤</title>
+    @*表格部分 使用bootstrap-table实现*@
+    <script src="/lib/bootstrap/dist/js/bootstrap-table.js"></script>
+    <link href="lib/bootstrap/dist/css/bootstrap-table.css"/>
+    
+    @*导入相应的js实现业务*@
+    <script src="~/js/clock.js"></script>
+    
+</head>
+<body>
+<div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div>
+                <button type="button" class="btn btn-primary" onclick="GoToClock()">上班打卡</button>
+                <button type="button" class="btn btn-primary" onclick="GoOffClock()">下班打卡</button>
+            </div>
+        </div>
+
+        <div class="row">
+                <p>考勤历史记录</p>
+                <table id="e-table"></table>
+        </div>
+    </div>
+    
+    
+
+    @* 模态框模板 通过注入来实现各种具体功能 *@
+    <div class="modal fade" id="e-Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @* 标题注入 *@
+                    <h5 class="modal-title">详情</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*请求未到达前 先转圈圈  到达后直接注入html元素*@
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
